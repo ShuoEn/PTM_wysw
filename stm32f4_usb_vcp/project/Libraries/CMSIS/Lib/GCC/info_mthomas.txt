@@ -1,0 +1,50 @@
+
+Hardware FPU and software-ABI
+=============================
+
+The libarm_cortexM4lf_math.a has been built with:
+
+  arm-none-eabi-gcc.exe (GNU Tools for ARM Embedded Processors) 
+  4.6.2 20120316 (release) [ARM/embedded-4_6-branch revision 185452]
+
+using compiler options:
+
+  -c -mthumb -gdwarf-2 -MD -Wall -O3 -mapcs-frame -mthumb-interwork 
+  -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=softfp -fno-strict-aliasing
+  -ffunction-sections -IC:/Keil/ARM/CMSIS/Include 
+  -I"C:/Programme/GNU Tools ARM Embedded/4.6 2012q1/arm-none-eabi/include" 
+  -DARM_MATH_CM4 -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING -D__FPU_PRESENT="1"
+
+and linker options:
+
+  -mthumb -mthumb-interwork -nostartfiles -lm 
+  -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=softfp -Wl,--gc-sections
+
+
+Make sure to enable the hardware-FPU before using functions from this library.
+
+
+---
+
+FPU emulation and Software-ABI
+==============================
+
+The libarm_cortexM4l_math.a has been built with the same toolchain-version as
+mentioned above using compiler options:
+
+  -c -mthumb -gdwarf-2 -MD -Wall -O3 -mapcs-frame -mthumb-interwork 
+  -mcpu=cortex-m4 -fno-strict-aliasing -ffunction-sections -IC:/Keil/ARM/CMSIS/Include 
+  -I"C:/Programme/GNU Tools ARM Embedded/4.6 2012q1/arm-none-eabi/include" 
+  -DARM_MATH_CM4 -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING 
+
+(Note: no -mfpu=fpv4-sp-d16 -mfloat-abi=softfp -D__FPU_PRESENT="1")
+
+Linker options:
+
+  -mthumb -mthumb-interwork -nostartfiles -lm -mcpu=cortex-m4 -Wl,--gc-sections
+
+(Note: no -mfpu=fpv4-sp-d16 -mfloat-abi=softfp)
+
+This library does not use the hardware FPU, so there is not need to enable it.
+
+
